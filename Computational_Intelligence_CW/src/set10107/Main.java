@@ -1,3 +1,11 @@
+//**********************************************************
+// SET10107 Computational Intelligence Coursework
+//
+// Author: 40056161
+//
+// Date: 2015
+//*********************************************************
+
 package set10107;
 
 import java.util.Arrays;
