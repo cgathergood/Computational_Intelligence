@@ -6,7 +6,7 @@ import java.util.Collections;
 public class Main {
 
 	public static void main(String[] args) {
-		Problem.loadProblem("Problem Files/Problem5.txt");
+		Problem.loadProblem("Problem Files/Problem4.txt");
 		
 		Job[] myJobs = Problem.getJobs();
 		
