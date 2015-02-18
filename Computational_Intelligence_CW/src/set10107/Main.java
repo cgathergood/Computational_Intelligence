@@ -13,8 +13,8 @@ import java.util.Collections;
 
 public class Main {
 
-	public static void main(String[] args) {
-		Problem.loadProblem("Problem Files/Problem1.txt");
+	public static void main(String[] args) { 
+		Problem.loadProblem("Problem Files/Problem1.txt"); //Load Problem File
 		
 		Job[] myJobs = Problem.getJobs();
 		
