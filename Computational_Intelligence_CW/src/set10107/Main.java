@@ -14,7 +14,7 @@ import java.util.Collections;
 public class Main {
 
 	public static void main(String[] args) {
-		Problem.loadProblem("Problem Files/Problem4.txt");
+		Problem.loadProblem("Problem Files/Problem1.txt");
 		
 		Job[] myJobs = Problem.getJobs();
 		
