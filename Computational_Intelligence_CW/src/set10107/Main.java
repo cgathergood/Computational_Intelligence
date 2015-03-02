@@ -21,6 +21,10 @@ public class Main {
 		//Pint out Job Data
 		for(Job j : myJobs){
 			System.out.println("ID: " + j.id + ", Pickup:" + j.pickup + ", Setdown:" + j.setdown + ", Available:" + j.available);
+			
+			for(int[] i : j.payments){
+				System.out.println("Payments: " +i[0] + "," +i[1]);
+			}
 		}
 		
 		
