@@ -18,6 +18,12 @@ public class Main {
 		
 		Job[] myJobs = Problem.getJobs();
 		
+		//Pint out Job Data
+		for(Job j : myJobs){
+			System.out.println("ID: " + j.id + ", Pickup:" + j.pickup + ", Setdown:" + j.setdown + ", Available:" + j.available);
+		}
+		
+		
 		Collections.shuffle(Arrays.asList(myJobs));
 		
 		System.out.println("Delivery order ");
