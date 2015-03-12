@@ -19,61 +19,53 @@ public class Main {
 
 		Job[] myJobs = Problem.getJobs();
 
-		// Pint out Job Data
-		/*
-		 * for(Job j : myJobs){ System.out.println("ID: " + j.id + ", Pickup:" +
-		 * j.pickup + ", Setdown:" + j.setdown + ", Available:" + j.available);
-		 * 
-		 * for(int[] i : j.payments){ System.out.println("Payments: " +i[0] +
-		 * "," +i[1]); } }
-		 */
-
-		// A Star
-
-		int time;
-		int shortest = 100;
-
+		// Intialise Open and Closed Lists
 		ArrayList<Job> openList = new ArrayList<Job>();
 		ArrayList<Job> closedList = new ArrayList<Job>();
+		ArrayList<Job> sol = new ArrayList<Job>();
 
 		// Populate openList
 		for (Job j : myJobs) {
 			openList.add(j);
 		}
 
-		Job currentJob = myJobs[0];
+		int time = 100;
 
-		// while (openList.isEmpty() == false) {
-		closedList.add(currentJob);
-		openList.remove(currentJob);
+		for (Job currentJob : myJobs) {
+			closedList.add(currentJob);
+			//openList.remove(currentJob);
+			//while (openList.isEmpty() == false) {
 
-		// Order open list
-		for (Job j : openList) {
-			System.out.println("The distance from " + currentJob.id + " to "
-					+ j.id + " is "
-					+ Problem.getTime(currentJob.setdown, j.pickup));
+				Job nextJob = new Job();
+				// Order open list
+				for (Job j : openList) {
+					if (Problem.getTime(currentJob.setdown, j.pickup) < time) {
+						time = Problem.getTime(currentJob.setdown, j.pickup);
+						nextJob = j;
+					}
+				}
+				sol.add(nextJob);
+				openList.remove(nextJob);
+				time = 100;
+//			//}
+//			System.out.println("Openlist size: " + openList.size());
+//			System.out.println("ClosedList size: " + closedList.size());
+//			System.out.println("Solutionlist size: " + sol.size());
 		}
-		// return;
-		// }
-
-		/*
-		 * for (Job j : myJobs) { for (Job neighbour : myJobs) { time =
-		 * Problem.getTime(j.setdown, neighbour.pickup);
-		 * System.out.println("From "+ j.id + " to " + neighbour.id + " = "
-		 * +time); if (time < shortest && time != 0) { shortest = time; } }
-		 * System.out.println("Shortest time: " + shortest); shortest = 100; }
-		 * System.out.println("Reward =" + Problem.score(myJobs));
-		 */
 
 		// Random Shuffle
-		// Collections.shuffle(Arrays.asList(myJobs));
+		Collections.shuffle(Arrays.asList(myJobs));
 
 		System.out.println("Delivery order ");
-		for (Job j : myJobs) {
+		for (Job j : sol) {
 			System.out.println(j.id + ", ");
 		}
 		System.out.println();
-		System.out.println("Reward =" + Problem.score(myJobs));
+		Job[] results = new Job[sol.size()];
+		sol.toArray(results);
+		
+		System.out.println("Reward =" + Problem.score(results));
+		
 
 	}
 }
