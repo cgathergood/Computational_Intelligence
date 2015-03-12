@@ -30,15 +30,42 @@ public class Main {
 
 		int time = 10000;
 		int jobCost;
-		Job nextJob = null;
 
 		for (Job current : myJobs) {
 			for (Job j : myJobs) {
 				jobCost = Problem.getTime(current.setdown, j.pickup);
-				System.out.println("The cost from " + current.id + " to " + j.id + " is " + jobCost);
+				//System.out.println("The cost from " + current.id + " to " + j.id + " is " + jobCost);
 			}
 			System.out.println();
 		}
+
+		Job currentJob = openList.get(0);
+		
+		while(openList.isEmpty() == false){
+			
+			System.out.println("Current job " + currentJob.id);
+			openList.remove(currentJob);
+			closedList.add(currentJob);
+			// Find closest job to currentJob
+			for (Job j : openList){
+				jobCost = Problem.getTime(currentJob.setdown, j.pickup);
+				if(jobCost < time){
+					time = jobCost;
+					currentJob = j;
+				}
+			}
+			time = 1000;
+			//return;
+			
+		}
+		
+		
+		for(Job j : closedList){
+			System.out.println(j.id);
+		}
+		
+		Job[] sol = new Job[closedList.size()];
+		closedList.toArray(sol);
 
 		// Random Shuffle
 		Collections.shuffle(Arrays.asList(myJobs));
@@ -48,8 +75,9 @@ public class Main {
 		// System.out.println(j.id + ", ");
 		// }
 		System.out.println();
-
+		
 		System.out.println("Random Reward =" + Problem.score(myJobs));
+		System.out.println("Reward =" + Problem.score(sol));
 
 	}
 }
