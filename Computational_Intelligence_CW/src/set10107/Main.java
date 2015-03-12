@@ -22,50 +22,34 @@ public class Main {
 		// Intialise Open and Closed Lists
 		ArrayList<Job> openList = new ArrayList<Job>();
 		ArrayList<Job> closedList = new ArrayList<Job>();
-		ArrayList<Job> sol = new ArrayList<Job>();
 
 		// Populate openList
 		for (Job j : myJobs) {
 			openList.add(j);
 		}
 
-		int time = 100;
+		int time = 10000;
+		int jobCost;
+		Job nextJob = null;
 
-		for (Job currentJob : myJobs) {
-			closedList.add(currentJob);
-			//openList.remove(currentJob);
-			//while (openList.isEmpty() == false) {
-
-				Job nextJob = new Job();
-				// Order open list
-				for (Job j : openList) {
-					if (Problem.getTime(currentJob.setdown, j.pickup) < time) {
-						time = Problem.getTime(currentJob.setdown, j.pickup);
-						nextJob = j;
-					}
-				}
-				sol.add(nextJob);
-				openList.remove(nextJob);
-				time = 100;
-//			//}
-//			System.out.println("Openlist size: " + openList.size());
-//			System.out.println("ClosedList size: " + closedList.size());
-//			System.out.println("Solutionlist size: " + sol.size());
+		for (Job current : myJobs) {
+			for (Job j : myJobs) {
+				jobCost = Problem.getTime(current.setdown, j.pickup);
+				System.out.println("The cost from " + current.id + " to " + j.id + " is " + jobCost);
+			}
+			System.out.println();
 		}
 
 		// Random Shuffle
 		Collections.shuffle(Arrays.asList(myJobs));
 
-		System.out.println("Delivery order ");
-		for (Job j : sol) {
-			System.out.println(j.id + ", ");
-		}
+		// System.out.println("Delivery order ");
+		// for (Job j : myJobs) {
+		// System.out.println(j.id + ", ");
+		// }
 		System.out.println();
-		Job[] results = new Job[sol.size()];
-		sol.toArray(results);
-		
-		System.out.println("Reward =" + Problem.score(results));
-		
+
+		System.out.println("Random Reward =" + Problem.score(myJobs));
 
 	}
 }
