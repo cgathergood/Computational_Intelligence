@@ -15,35 +15,46 @@ public class EvolutionaryAlgorithm {
 
 		int[] chromo = createChromo(myJobs);
 
-		for (int i = 0; i < myJobs.length; i++) {
-			chromo[i] = i;
-		}
-
-		for (int i : chromo) {
-			System.out.print(i + ", ");
-		}
-
-		chromo = mutate(chromo);
-		System.out.println();
-
-		for (int i : chromo) {
-			System.out.print(i + ", ");
+		int myFit = fitness(myJobs, chromo);
+		
+		while(tries < 10000){
+			
+			int[] newChromo = chromo;
+			
+			newChromo = mutate(newChromo);
+			
+			int newFit = fitness(myJobs, newChromo);
+			
+			if(newFit > myFit){
+				chromo = newChromo;
+				myFit = newFit;
+				
+				System.out.println("Improved fitness is now " + myFit);
+			}
+			
+			tries ++;
+				
 		}
 
 		// Build solution
-		/*
-		 * Job[] sol = new Job[myJobs.length];
-		 * 
-		 * for (int i : chromo) { sol[i] = myJobs[i]; }
-		 * 
-		 * System.out.println("Delivery order "); for (Job j : sol) {
-		 * System.out.println(j.id + ", "); } System.out.println();
-		 * 
-		 * System.out.println("Reward =" + Problem.score(sol));
-		 */
+
+		// Job[] sol = new Job[myJobs.length];
+		//
+		// for (int i : chromo) {
+		// sol[i] = myJobs[i];
+		// }
+		//
+		// System.out.println("Delivery order ");
+		// for (Job j : sol) {
+		// System.out.println(j.id + ", ");
+		// }
+		// System.out.println();
+		//
+		// System.out.println("Reward =" + Problem.score(sol));
 
 	}
 
+	// Creates basic chromosone
 	public static int[] createChromo(Job[] jobs) {
 
 		int[] chromo = new int[jobs.length];
@@ -54,6 +65,7 @@ public class EvolutionaryAlgorithm {
 
 	}
 
+	// Mutates the chromosone
 	public static int[] mutate(int[] chromo) {
 		Random randomGenerator = new Random();
 
@@ -71,5 +83,16 @@ public class EvolutionaryAlgorithm {
 
 		return chromo;
 
+	}
+
+	// Calculates the fitness of the chromosone
+	private static int fitness(Job[] myJobs, int[] chromo) {
+		Job[] sol = new Job[myJobs.length];
+		
+		for(int i=0; i < myJobs.length; i++){
+			sol[i] = myJobs[chromo[i]];
+		}
+		
+		return Problem.score(sol);
 	}
 }
