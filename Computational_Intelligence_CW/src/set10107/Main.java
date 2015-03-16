@@ -15,7 +15,7 @@ import java.util.Collections;
 public class Main {
 
 	public static void main(String[] args) {
-		Problem.loadProblem("Problem Files/Problem1.txt"); // Load Problem File
+		Problem.loadProblem("Problem Files/Problem1.txt");
 
 		Job[] myJobs = Problem.getJobs();
 
@@ -29,7 +29,6 @@ public class Main {
 		}
 
 		int time = 10000;
-		int runningTime = 0;
 		int jobCost;
 
 		Job currentJob = openList.get(0);
@@ -47,9 +46,8 @@ public class Main {
 					nextJob = j;
 					System.out.println("Lowest cost from " + currentJob.id + " to " + j.id + " is " + jobCost );
 				}
-				runningTime += Problem.getTime(currentJob.setdown, nextJob.pickup);
-				currentJob = nextJob;
 			}
+			currentJob = nextJob;
 			time = 10000;			
 		}
 		
