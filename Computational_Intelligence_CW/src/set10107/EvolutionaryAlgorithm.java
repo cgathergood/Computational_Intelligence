@@ -1,7 +1,5 @@
 package set10107;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Random;
 
 public class EvolutionaryAlgorithm {
@@ -12,46 +10,24 @@ public class EvolutionaryAlgorithm {
 		Job[] myJobs = Problem.getJobs();
 
 		int tries = 0;
-
 		int[] chromo = createChromo(myJobs);
-
 		int myFit = fitness(myJobs, chromo);
-		
-		while(tries < 10000){
-			
+
+		while (tries < 10000) {
+
 			int[] newChromo = chromo;
-			
 			newChromo = mutate(newChromo);
-			
+
 			int newFit = fitness(myJobs, newChromo);
-			
-			if(newFit > myFit){
+
+			if (newFit > myFit) {
 				chromo = newChromo;
 				myFit = newFit;
-				
+
 				System.out.println("Improved fitness is now " + myFit);
 			}
-			
-			tries ++;
-				
+			tries++;
 		}
-
-		// Build solution
-
-		// Job[] sol = new Job[myJobs.length];
-		//
-		// for (int i : chromo) {
-		// sol[i] = myJobs[i];
-		// }
-		//
-		// System.out.println("Delivery order ");
-		// for (Job j : sol) {
-		// System.out.println(j.id + ", ");
-		// }
-		// System.out.println();
-		//
-		// System.out.println("Reward =" + Problem.score(sol));
-
 	}
 
 	// Creates basic chromosone
@@ -80,19 +56,16 @@ public class EvolutionaryAlgorithm {
 				chromo[i] = random1;
 			}
 		}
-
 		return chromo;
-
 	}
 
 	// Calculates the fitness of the chromosone
 	private static int fitness(Job[] myJobs, int[] chromo) {
 		Job[] sol = new Job[myJobs.length];
-		
-		for(int i=0; i < myJobs.length; i++){
+
+		for (int i = 0; i < myJobs.length; i++) {
 			sol[i] = myJobs[chromo[i]];
 		}
-		
 		return Problem.score(sol);
 	}
 }
