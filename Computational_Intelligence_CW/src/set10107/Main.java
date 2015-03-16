@@ -29,39 +29,32 @@ public class Main {
 		}
 
 		int time = 10000;
+		int runningTime = 0;
 		int jobCost;
 
-		for (Job current : myJobs) {
-			for (Job j : myJobs) {
-				jobCost = Problem.getTime(current.setdown, j.pickup);
-				//System.out.println("The cost from " + current.id + " to " + j.id + " is " + jobCost);
-			}
-			System.out.println();
-		}
-
 		Job currentJob = openList.get(0);
+		Job nextJob = new Job();
 		
 		while(openList.isEmpty() == false){
-			
-			System.out.println("Current job " + currentJob.id);
 			openList.remove(currentJob);
 			closedList.add(currentJob);
+			System.out.println("Current job " + currentJob.id);
 			// Find closest job to currentJob
 			for (Job j : openList){
 				jobCost = Problem.getTime(currentJob.setdown, j.pickup);
 				if(jobCost < time){
 					time = jobCost;
-					currentJob = j;
+					nextJob = j;
+					System.out.println("Lowest cost from " + currentJob.id + " to " + j.id + " is " + jobCost );
 				}
+				runningTime += Problem.getTime(currentJob.setdown, nextJob.pickup);
+				currentJob = nextJob;
 			}
-			time = 1000;
-			//return;
-			
+			time = 10000;			
 		}
 		
-		
-		for(Job j : closedList){
-			System.out.println(j.id);
+		for (Job job : closedList){
+			System.out.println(job.id);
 		}
 		
 		Job[] sol = new Job[closedList.size()];
