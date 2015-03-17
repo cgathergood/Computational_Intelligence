@@ -8,26 +8,36 @@ public class EvolutionaryAlgorithm {
 
 		Problem.loadProblem("Problem Files/Problem1.txt");
 		Job[] myJobs = Problem.getJobs();
-
+		
 		int tries = 0;
+		int attempt = 10000;
+		
 		int[] chromo = createChromo(myJobs);
-		int myFit = fitness(myJobs, chromo);
+		int bestFit = fitness(myJobs, chromo);
 
-		while (tries < 10000) {
+		while (tries < attempt) {
 
-			int[] newChromo = chromo;
+			int[] newChromo = chromo;			
+			
 			newChromo = mutate(newChromo);
 
 			int newFit = fitness(myJobs, newChromo);
 
-			if (newFit > myFit) {
+			if (newFit > bestFit) {
 				chromo = newChromo;
-				myFit = newFit;
+				bestFit = newFit;
 
-				System.out.println("Improved fitness is now " + myFit);
+				System.out.println("Improved fitness is now \t " +  bestFit + "\t on try \t " + tries );
 			}
 			tries++;
 		}
+		
+		for(int i : chromo){
+			System.out.println(i + ",");
+		}
+		
+		System.out.println("Final Fitness= " +bestFit);
+		
 	}
 
 	// Creates basic chromosone
@@ -38,7 +48,6 @@ public class EvolutionaryAlgorithm {
 			chromo[i] = i;
 		}
 		return chromo;
-
 	}
 
 	// Mutates the chromosone
@@ -48,23 +57,20 @@ public class EvolutionaryAlgorithm {
 		int random1 = randomGenerator.nextInt(chromo.length);
 		int random2 = randomGenerator.nextInt(chromo.length);
 
-		for (int i : chromo) {
-			if (i == random1) {
-				chromo[i] = random2;
-			}
-			if (i == random2) {
-				chromo[i] = random1;
-			}
-		}
+		int temp1 = chromo[random1];
+		int temp2 = chromo[random2];
+		
+		chromo[random1]=temp2;
+		chromo[random2] = temp1;
+		
 		return chromo;
 	}
 
 	// Calculates the fitness of the chromosone
 	private static int fitness(Job[] myJobs, int[] chromo) {
 		Job[] sol = new Job[myJobs.length];
-
 		for (int i = 0; i < myJobs.length; i++) {
-			sol[i] = myJobs[chromo[i]];
+			sol[i] = myJobs[chromo[i]];			
 		}
 		return Problem.score(sol);
 	}
