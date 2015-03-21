@@ -1,8 +1,6 @@
 package set10107;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -10,19 +8,20 @@ public class EvolutionaryAlgorithm {
 
 	public static void main(String[] args) {
 
-		Problem.loadProblem("Problem Files/Problem1.txt");
+		Problem.loadProblem("Problem Files/Problem5.txt");
 		Job[] myJobs = Problem.getJobs();
 
 		int tries = 0;
-		int attempt = 1000;
+		int attempt = 10000;
 
 		// Creates a population of chromosones
-		int populationSize = 100;
+		int populationSize = 1000;
 		List<int[]> population = createPopulation(populationSize, myJobs);
 
-		int tournamentSize = 5;
+		int tournamentSize = 10;
 
 		int[] bestChromo = new int[myJobs.length];
+		int bestFit = 0;
 
 		while (tries < attempt) {
 
@@ -30,7 +29,12 @@ public class EvolutionaryAlgorithm {
 			population = replacement(newChild, population, myJobs);
 
 			bestChromo = bestFitness(population, myJobs);
-
+			
+			if(fitness(myJobs, bestChromo) > bestFit){
+				bestFit = fitness(myJobs, bestChromo);
+				System.out.println("Try: " +tries + " fitness: " +bestFit);
+			}
+			
 			tries++;
 		}
 
@@ -39,21 +43,6 @@ public class EvolutionaryAlgorithm {
 		}
 		System.out.println();
 		System.out.println("Final Fitness= " + fitness(myJobs, bestChromo));
-	}
-
-	private static int[] bestFitness(List<int[]> population, Job[] myJobs) {
-
-		int bestFit = 0;
-		int[] bestChromo = null;
-
-		for (int i = 0; i < population.size(); i++) {
-			if (fitness(myJobs, population.get(i)) > bestFit) {
-				bestFit = fitness(myJobs, population.get(i));
-				bestChromo = population.get(i);
-			}
-		}
-
-		return bestChromo;
 	}
 
 	// Creates random chromosone
@@ -216,6 +205,22 @@ public class EvolutionaryAlgorithm {
 		chromo[random2] = temp1;
 
 		return chromo;
+	}
+
+	// Returns the best performing chromosone - used for results
+	private static int[] bestFitness(List<int[]> population, Job[] myJobs) {
+
+		int bestFit = 0;
+		int[] bestChromo = null;
+
+		for (int i = 0; i < population.size(); i++) {
+			if (fitness(myJobs, population.get(i)) > bestFit) {
+				bestFit = fitness(myJobs, population.get(i));
+				bestChromo = population.get(i);
+			}
+		}
+
+		return bestChromo;
 	}
 
 	// Calculates the fitness of the chromosone
