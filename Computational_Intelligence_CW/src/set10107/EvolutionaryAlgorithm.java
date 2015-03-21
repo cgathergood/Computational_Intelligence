@@ -93,10 +93,18 @@ public class EvolutionaryAlgorithm {
 
 	// Tournament selects best performing chromosone from the population
 	private static int[] tournament(List<int[]> population, Job[] myJobs) {
-
+		
+		int totalFit = 0;
 		int bestFit = 0;
 		int currentFit = 0;
 		int[] winner = null;
+		
+		// Evaluate total population fitness
+		for (int[] chromo : population){
+			totalFit += fitness(myJobs, chromo);
+		}
+		
+		System.out.println("Total Fitness is " + totalFit);
 
 		for (int[] chromo : population) {
 			currentFit = fitness(myJobs, chromo);
@@ -109,7 +117,7 @@ public class EvolutionaryAlgorithm {
 		System.out.println("The best fitness is " + bestFit);
 
 		for (int i : winner) {
-			System.out.print(i);
+			System.out.print(i + ", ");
 		}
 		System.out.println();
 		return winner;
