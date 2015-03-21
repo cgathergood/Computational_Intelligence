@@ -19,39 +19,41 @@ public class EvolutionaryAlgorithm {
 		// Creates a population of chromosones
 		int populationSize = 100;
 		List<int[]> population = createPopulation(populationSize, myJobs);
-		
-		int tournamentSize = 5;
-		
-		tournament(population, myJobs, tournamentSize);
 
-		int[] chromo = createChromo(myJobs);
-		int bestFit = fitness(myJobs, chromo);
+		int tournamentSize = 5;
+
+		int[] bestChromo = new int[myJobs.length];
 
 		while (tries < attempt) {
 
-			int[] newChromo = chromo;
+			int[] newChild = selection(population, myJobs, tournamentSize);
+			population = replacement(newChild, population, myJobs);
 
-			newChromo = mutate(newChromo);
+			bestChromo = bestFitness(population, myJobs);
 
-			// newChromo = crossover(newChromo);
-
-			int newFit = fitness(myJobs, newChromo);
-
-			if (newFit > bestFit) {
-				chromo = newChromo;
-				bestFit = newFit;
-
-				System.out.println("Improved fitness is now \t " + bestFit
-						+ "\t on try \t " + tries);
-			}
 			tries++;
 		}
 
-		for (int i : chromo) {
+		for (int i : bestChromo) {
 			System.out.print(i + ",");
 		}
 		System.out.println();
-		System.out.println("Final Fitness= " + bestFit);
+		System.out.println("Final Fitness= " + fitness(myJobs, bestChromo));
+	}
+
+	private static int[] bestFitness(List<int[]> population, Job[] myJobs) {
+
+		int bestFit = 0;
+		int[] bestChromo = null;
+
+		for (int i = 0; i < population.size(); i++) {
+			if (fitness(myJobs, population.get(i)) > bestFit) {
+				bestFit = fitness(myJobs, population.get(i));
+				bestChromo = population.get(i);
+			}
+		}
+
+		return bestChromo;
 	}
 
 	// Creates random chromosone
@@ -89,76 +91,116 @@ public class EvolutionaryAlgorithm {
 			int[] chromo = createChromo(jobs);
 			population.add(chromo);
 		}
-		System.out.println("Population Created!");
+
 		return population;
 	}
 
-	// Tournament selection
-	private static int[] tournament(List<int[]> population, Job[] myJobs, int tournamentSize) {
-		
-		int totalFit = 0;
-		int bestFit = 0;
-		int currentFit = 0;
-		int[] winner = null;
-		
+	// Selection
+	private static int[] selection(List<int[]> population, Job[] myJobs,
+			int tournamentSize) {
+
 		List<int[]> parentSelection1 = new ArrayList<int[]>();
 		List<int[]> parentSelection2 = new ArrayList<int[]>();
-		
+
 		// Create selection of potential parents
-		for(int i=0; i<tournamentSize; i++){
+		for (int i = 0; i < tournamentSize; i++) {
 			int random = (int) (Math.random() * population.size());
 			parentSelection1.add(population.get(random));
 		}
-		
-		for(int i=0; i<tournamentSize; i++){
+
+		for (int i = 0; i < tournamentSize; i++) {
 			int random = (int) (Math.random() * population.size());
 			parentSelection2.add(population.get(random));
 		}
-		
+
 		// Determine best chromo from each parent
 		int parentFit1 = 0;
 		int parentFit2 = 0;
-		int[] parent1 = null; 
-		int[] parent2 = null; 
-		
-		for(int[] chromo : parentSelection1){
-			if(fitness(myJobs, chromo) > parentFit1){
+		int[] parent1 = new int[myJobs.length];
+		int[] parent2 = new int[myJobs.length];
+
+		for (int[] chromo : parentSelection1) {
+			if (fitness(myJobs, chromo) > parentFit1) {
 				parentFit1 = fitness(myJobs, chromo);
 				parent1 = chromo;
 			}
 		}
-		
-		for(int[] chromo : parentSelection2){
-			if(fitness(myJobs, chromo) > parentFit2){
+
+		for (int[] chromo : parentSelection2) {
+			if (fitness(myJobs, chromo) > parentFit2) {
 				parentFit2 = fitness(myJobs, chromo);
 				parent2 = chromo;
-			}			
+			}
 		}
-		
-		System.out.print("Parent1: ");
-		for(int i : parent1){
-			System.out.print(i + ", ");
-		}
-		System.out.println("Fitness: " + parentFit1);
-		
-		System.out.print("Parent2: ");
-		for(int i : parent2){
-			System.out.print(i + ", ");
-		}
-		System.out.println("Fitness: " + parentFit2);
-		
-		crossover(parent1, parent2);
 
-		return winner;
+		// Cross Over
+		int[] child = crossover(parent1, parent2);
 
+		// Mutate new child
+		int[] mutantChild = mutate(child);
+
+		return mutantChild;
 	}
-	
+
 	// Single point crossover
 	private static int[] crossover(int[] parent1, int[] parent2) {
-		// TODO Auto-generated method stub
-		return null;
+
+		ArrayList<Integer> newChild = new ArrayList<Integer>();
+		int crossoverPoint = (int) (Math.random() * parent1.length);
+
+		// Copies parent1 up to crossover point
+		for (int i = 0; i < parent1.length; i++) {
+			if (i < crossoverPoint) {
+				newChild.add(parent1[i]);
+			}
+		}
+
+		// Add remaining values from parent2
+		ArrayList<Integer> remaining = new ArrayList<Integer>();
+
+		for (int i : parent2) {
+			if (!newChild.contains(i)) {
+				remaining.add(i);
+			}
+		}
+
+		for (int i : remaining) {
+			newChild.add(i);
+		}
+
+		// Change from arraylist to array
+		int[] child = new int[parent1.length];
+
+		for (int i = 0; i < newChild.size(); i++) {
+			child[i] = newChild.get(i);
+		}
+
+		return child;
 	}
 
+	// Adds the newly created child to the exisiting population
+	private static List<int[]> replacement(int[] newChild,
+			List<int[]> population, Job[] myJobs) {
+
+		// Tournament to decide the worst performing chromosone
+		int worstFit = 10000;
+		int worstPos = 0;
+
+		for (int i = 0; i < population.size(); i++) {
+			if (fitness(myJobs, population.get(i)) < worstFit) {
+				worstFit = fitness(myJobs, population.get(i));
+				worstPos = i;
+			}
+		}
+
+		// Check if new child is better than the worst chromo
+		if (fitness(myJobs, newChild) > worstFit) {
+			population.add(newChild);
+			population.remove(worstPos);
+		}
+
+		return population;
+	}
 
 	// Mutates the chromosone
 	public static int[] mutate(int[] chromo) {
