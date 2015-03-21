@@ -15,13 +15,13 @@ public class EvolutionaryAlgorithm {
 
 		int tries = 0;
 		int attempt = 1000;
-		
+
 		// Creates a population of chromosones
 		int populationSize = 100;
 		List<int[]> population = createPopulation(populationSize, myJobs);
-		
+
 		tournament(population, myJobs);
-		
+
 		int[] chromo = createChromo(myJobs);
 		int bestFit = fitness(myJobs, chromo);
 
@@ -50,31 +50,6 @@ public class EvolutionaryAlgorithm {
 		}
 		System.out.println();
 		System.out.println("Final Fitness= " + bestFit);
-	}
-	
-	// Tournament selects best performing chromosone from the population
-	private static int[] tournament(List<int[]> population, Job[] myJobs) {
-		
-		int bestFit =0;
-		int currentFit = 0;
-		int[] winner = null;
-		
-		for(int[] chromo : population){
-			currentFit = fitness(myJobs, chromo);
-			
-			if(currentFit > bestFit){
-				bestFit = currentFit;
-				winner = chromo;
-			}
-		}
-		System.out.println("The best fitness is " + bestFit);
-		
-		for(int i : winner){
-			System.out.print(i);
-		}
-		System.out.println();
-		return winner;
-		
 	}
 
 	// Creates random chromosone
@@ -114,6 +89,31 @@ public class EvolutionaryAlgorithm {
 		}
 		System.out.println("Population Created!");
 		return population;
+	}
+
+	// Tournament selects best performing chromosone from the population
+	private static int[] tournament(List<int[]> population, Job[] myJobs) {
+
+		int bestFit = 0;
+		int currentFit = 0;
+		int[] winner = null;
+
+		for (int[] chromo : population) {
+			currentFit = fitness(myJobs, chromo);
+
+			if (currentFit > bestFit) {
+				bestFit = currentFit;
+				winner = chromo;
+			}
+		}
+		System.out.println("The best fitness is " + bestFit);
+
+		for (int i : winner) {
+			System.out.print(i);
+		}
+		System.out.println();
+		return winner;
+
 	}
 
 	// Mutates the chromosone
