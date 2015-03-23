@@ -40,7 +40,7 @@ public class HillClimber {
 		System.out.println("Final Fitness= " + bestFit);
 	}
 
-	// Creates random chromosone
+	// Creates random chromosome
 	public static int[] createChromo(Job[] jobs) {
 
 		int[] chromo = new int[jobs.length];
@@ -66,7 +66,7 @@ public class HillClimber {
 		return a;
 	}
 
-	// Mutates the chromosone
+	// Mutates the chromosome
 	public static int[] mutate(int[] chromo) {
 		Random randomGenerator = new Random();
 
@@ -82,7 +82,7 @@ public class HillClimber {
 		return chromo;
 	}
 
-	// Calculates the fitness of the chromosone
+	// Calculates the fitness of the chromosome
 	private static int fitness(Job[] myJobs, int[] chromo) {
 		Job[] sol = new Job[myJobs.length];
 		for (int i = 0; i < myJobs.length; i++) {

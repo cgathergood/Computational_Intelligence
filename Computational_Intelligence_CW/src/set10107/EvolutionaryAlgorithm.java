@@ -8,17 +8,17 @@ public class EvolutionaryAlgorithm {
 
 	public static void main(String[] args) {
 
-		Problem.loadProblem("Problem Files/Problem5.txt");
+		Problem.loadProblem("Problem Files/Problem2.txt");
 		Job[] myJobs = Problem.getJobs();
 
 		int tries = 0;
 		int attempt = 10000;
 
-		// Creates a population of chromosones
-		int populationSize = 100;
+		// Creates a population of chromosomes
+		int populationSize = 1000;
 		List<int[]> population = createPopulation(populationSize, myJobs);
 
-		int tournamentSize = 20;
+		int tournamentSize = 50;
 
 		int[] bestChromo = new int[myJobs.length];
 		int bestFit = 0;
@@ -46,7 +46,7 @@ public class EvolutionaryAlgorithm {
 		System.out.println("Final Fitness= " + fitness(myJobs, bestChromo));
 	}
 
-	// Creates random chromosone
+	// Creates random chromosome
 	public static int[] createChromo(Job[] jobs) {
 
 		int[] chromo = new int[jobs.length];
@@ -72,7 +72,7 @@ public class EvolutionaryAlgorithm {
 		return a;
 	}
 
-	// Creates a population of chromosones
+	// Creates a population of chromosomes
 	public static List<int[]> createPopulation(int size, Job[] jobs) {
 
 		List<int[]> population = new ArrayList<int[]>();
@@ -171,7 +171,7 @@ public class EvolutionaryAlgorithm {
 	private static List<int[]> replacement(int[] newChild,
 			List<int[]> population, Job[] myJobs) {
 
-		// Tournament to decide the worst performing chromosone
+		// Tournament to decide the worst performing chromosome
 		int worstFit = 10000;
 		int worstPos = 0;
 
@@ -190,7 +190,7 @@ public class EvolutionaryAlgorithm {
 		return population;
 	}
 
-	// Mutates the chromosone
+	// Mutates the chromosome
 	public static int[] mutate(int[] chromo) {
 		Random randomGenerator = new Random();
 
@@ -206,7 +206,7 @@ public class EvolutionaryAlgorithm {
 		return chromo;
 	}
 
-	// Returns the best performing chromosone - used for results
+	// Returns the best performing chromosome - used for results
 	private static int[] bestFitness(List<int[]> population, Job[] myJobs) {
 
 		int bestFit = 0;
@@ -221,7 +221,7 @@ public class EvolutionaryAlgorithm {
 		return bestChromo;
 	}
 
-	// Calculates the fitness of the chromosone
+	// Calculates the fitness of the chromosome
 	private static int fitness(Job[] myJobs, int[] chromo) {
 		Job[] sol = new Job[myJobs.length];
 		for (int i = 0; i < myJobs.length; i++) {
