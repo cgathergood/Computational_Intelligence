@@ -6,11 +6,11 @@ public class HillClimber {
 
 	public static void main(String[] args) {
 
-		Problem.loadProblem("Problem Files/Problem1.txt");
+		Problem.loadProblem("Problem Files/Problem5.txt");
 		Job[] myJobs = Problem.getJobs();
 
 		int tries = 0;
-		int attempt = 1000;
+		int attempt = 10000;
 
 		int[] chromo = createChromo(myJobs);
 		int bestFit = fitness(myJobs, chromo);

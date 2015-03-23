@@ -8,17 +8,17 @@ public class EvolutionaryAlgorithm {
 
 	public static void main(String[] args) {
 
-		Problem.loadProblem("Problem Files/Problem2.txt");
+		Problem.loadProblem("Problem Files/Problem4.txt");
 		Job[] myJobs = Problem.getJobs();
 
 		int tries = 0;
 		int attempt = 10000;
 
 		// Creates a population of chromosomes
-		int populationSize = 1000;
+		int populationSize = 100;
 		List<int[]> population = createPopulation(populationSize, myJobs);
 
-		int tournamentSize = 50;
+		int tournamentSize = 10;
 
 		int[] bestChromo = new int[myJobs.length];
 		int bestFit = 0;
