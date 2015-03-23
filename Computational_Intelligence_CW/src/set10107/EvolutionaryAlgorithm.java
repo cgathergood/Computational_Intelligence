@@ -15,10 +15,10 @@ public class EvolutionaryAlgorithm {
 		int attempt = 10000;
 
 		// Creates a population of chromosones
-		int populationSize = 1000;
+		int populationSize = 100;
 		List<int[]> population = createPopulation(populationSize, myJobs);
 
-		int tournamentSize = 10;
+		int tournamentSize = 20;
 
 		int[] bestChromo = new int[myJobs.length];
 		int bestFit = 0;
@@ -29,12 +29,13 @@ public class EvolutionaryAlgorithm {
 			population = replacement(newChild, population, myJobs);
 
 			bestChromo = bestFitness(population, myJobs);
-			
-			if(fitness(myJobs, bestChromo) > bestFit){
+
+			if (fitness(myJobs, bestChromo) > bestFit) {
 				bestFit = fitness(myJobs, bestChromo);
-				System.out.println("Try: " +tries + " fitness: " +bestFit);
+				System.out.println("Try: \t" + tries + "\t fitness: \t"
+						+ bestFit);
 			}
-			
+
 			tries++;
 		}
 
@@ -163,7 +164,6 @@ public class EvolutionaryAlgorithm {
 		for (int i = 0; i < newChild.size(); i++) {
 			child[i] = newChild.get(i);
 		}
-
 		return child;
 	}
 
@@ -187,7 +187,6 @@ public class EvolutionaryAlgorithm {
 			population.add(newChild);
 			population.remove(worstPos);
 		}
-
 		return population;
 	}
 
@@ -219,7 +218,6 @@ public class EvolutionaryAlgorithm {
 				bestChromo = population.get(i);
 			}
 		}
-
 		return bestChromo;
 	}
 
