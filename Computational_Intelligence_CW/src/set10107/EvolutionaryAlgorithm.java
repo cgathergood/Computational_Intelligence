@@ -8,42 +8,48 @@ public class EvolutionaryAlgorithm {
 
 	public static void main(String[] args) {
 
-		Problem.loadProblem("Problem Files/Problem5.txt");
+		Problem.loadProblem("Problem Files/Problem3.txt");
 		Job[] myJobs = Problem.getJobs();
 
-		int tries = 0;
-		int attempt = 10000;
+		for (int test = 0; test < 10; test++) {
+			int tries = 0;
+			int attempt = 10000;
 
-		// Creates a population of chromosomes
-		int populationSize = 1000;
-		List<int[]> population = createPopulation(populationSize, myJobs);
+			// Creates a population of chromosomes
+			int populationSize = 1000;
+			List<int[]> population = createPopulation(populationSize, myJobs);
 
-		int tournamentSize = 50; 
+			int tournamentSize = 500;
 
-		int[] bestChromo = new int[myJobs.length];
-		int bestFit = 0;
+			int[] bestChromo = new int[myJobs.length];
+			int bestFit = 0;
 
-		while (tries < attempt) {
+			while (tries < attempt) {
 
-			int[] newChild = selection(population, myJobs, tournamentSize);
-			population = replacement(newChild, population, myJobs);
+				int[] newChild = selection(population, myJobs, tournamentSize);
+				population = replacement(newChild, population, myJobs);
 
-			bestChromo = bestFitness(population, myJobs);
+				bestChromo = bestFitness(population, myJobs);
 
-			if (fitness(myJobs, bestChromo) > bestFit) {
-				bestFit = fitness(myJobs, bestChromo);
-				System.out.println("Try: \t" + tries + "\t fitness: \t"
-						+ bestFit);
+				if (fitness(myJobs, bestChromo) > bestFit) {
+					bestFit = fitness(myJobs, bestChromo);
+					// System.out.println("Try: \t" + tries + "\t fitness: \t"
+					// + bestFit);
+				}
+
+				tries++;
 			}
 
-			tries++;
-		}
-
-		for (int i : bestChromo) {
-			System.out.print(i + ",");
+			// for (int i : bestChromo) {
+			// System.out.print(i + ",");
+			// }
+			// System.out.println();
+			// System.out.println("Final Fitness= " + fitness(myJobs,
+			// bestChromo));
+			System.out.print(fitness(myJobs, bestChromo) + "\t");
 		}
 		System.out.println();
-		System.out.println("Final Fitness= " + fitness(myJobs, bestChromo));
+		System.out.println("Done!");
 	}
 
 	// Creates random chromosome
