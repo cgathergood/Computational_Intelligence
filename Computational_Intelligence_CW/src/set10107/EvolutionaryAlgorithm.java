@@ -18,7 +18,7 @@ public class EvolutionaryAlgorithm {
 		int populationSize = 1000;
 		List<int[]> population = createPopulation(populationSize, myJobs);
 
-		int tournamentSize = 100;
+		int tournamentSize = 50; 
 
 		int[] bestChromo = new int[myJobs.length];
 		int bestFit = 0;
