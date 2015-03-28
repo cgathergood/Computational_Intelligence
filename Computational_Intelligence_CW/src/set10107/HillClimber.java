@@ -9,35 +9,40 @@ public class HillClimber {
 		Problem.loadProblem("Problem Files/Problem5.txt");
 		Job[] myJobs = Problem.getJobs();
 
-		int tries = 0;
-		int attempt = 10000;
+		for (int test = 0; test < 10; test++) {
 
-		int[] chromo = createChromo(myJobs);
-		int bestFit = fitness(myJobs, chromo);
+			int tries = 0;
+			int attempt = 10000;
 
-		while (tries < attempt) {
+			int[] chromo = createChromo(myJobs);
+			int bestFit = fitness(myJobs, chromo);
 
-			int[] newChromo = chromo;
+			while (tries < attempt) {
 
-			newChromo = mutate(newChromo);
+				int[] newChromo = chromo;
 
-			int newFit = fitness(myJobs, newChromo);
+				newChromo = mutate(newChromo);
 
-			if (newFit > bestFit) {
-				chromo = newChromo;
-				bestFit = newFit;
+				int newFit = fitness(myJobs, newChromo);
 
-				System.out.println("Improved fitness is now \t " + bestFit
-						+ "\t on try \t " + tries);
+				if (newFit > bestFit) {
+					chromo = newChromo;
+					bestFit = newFit;
+
+					// System.out.println("Improved fitness is now \t " +
+					// bestFit
+					// + "\t on try \t " + tries);
+				}
+				tries++;
 			}
-			tries++;
-		}
 
-		for (int i : chromo) {
-			System.out.print(i + ",");
+			// for (int i : chromo) {
+			// System.out.print(i + ",");
+			// }
+			// System.out.println();
+			// System.out.println("Final Fitness= " + bestFit);
+			System.out.print(bestFit + "\t");
 		}
-		System.out.println();
-		System.out.println("Final Fitness= " + bestFit);
 	}
 
 	// Creates random chromosome

@@ -8,7 +8,7 @@ public class EvolutionaryAlgorithm {
 
 	public static void main(String[] args) {
 
-		Problem.loadProblem("Problem Files/Problem3.txt");
+		Problem.loadProblem("Problem Files/Problem1.txt");
 		Job[] myJobs = Problem.getJobs();
 
 		for (int test = 0; test < 10; test++) {
