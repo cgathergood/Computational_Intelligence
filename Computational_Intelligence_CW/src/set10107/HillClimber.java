@@ -12,7 +12,7 @@ public class HillClimber {
 		for (int test = 0; test < 10; test++) {
 
 			int tries = 0;
-			int attempt = 10000;
+			int attempt = 60000;
 
 			int[] chromo = createChromo(myJobs);
 			int bestFit = fitness(myJobs, chromo);
